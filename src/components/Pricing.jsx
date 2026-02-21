@@ -1,53 +1,57 @@
-import { Check, Star } from "lucide-react";
+import { Check } from "lucide-react";
 
 const plans = [
   {
-    name: "Starter",
-    price: "29.99",
-    description: "Perfect for individuals and small teams",
+    icon: "🧩",
+    name: "Web Presence",
+    price: "200",
+    priceNote: "starting from",
+    description: "Perfect for businesses taking their first steps online.",
     features: [
-      "Up to 5 team members",
-      "10GB storage",
-      "Basic analytics",
-      "Email support",
-      "API access",
-      "Mobile app",
+      "Clean, conversion-focused design",
+      "Mobile-responsive layout",
+      "WordPress or Webflow",
+      "Up to 5 pages",
+      "Basic SEO setup",
+      "Contact form integration",
     ],
     mostPopular: false,
+    cta: "Get Started",
   },
   {
-    name: "Professional",
-    price: "79.99",
-    description: "Best for growing businesses",
+    icon: "⚙️",
+    name: "Business Operations",
+    price: "600",
+    priceNote: "starting from",
+    description: "Digitize and optimize how your business actually runs.",
     features: [
-      "Up to 25 team members",
-      "100GB storage",
-      "Advanced analytics",
-      "Priority support",
-      "API access",
-      "Mobile app",
-      "Custom integrations",
-      "Advanced security",
+      "Workflow digitization",
+      "Communication optimization",
+      "Record management system",
+      "Data analytics dashboard",
+      "User roles & permissions",
+      "Custom admin panel",
     ],
     mostPopular: true,
+    cta: "Start Project",
   },
   {
-    name: "Enterprise",
-    price: "199.99",
-    description: "For large organizations",
+    icon: "🚀",
+    name: "Custom Enterprise",
+    price: "1,500",
+    priceNote: "starting from",
+    description: "Fully tailored systems for high-performance organizations.",
     features: [
-      "Unlimited team members",
-      "Unlimited storage",
-      "Enterprise analytics",
-      "24/7 phone support",
-      "API access",
-      "Mobile app",
-      "Custom integrations",
-      "Advanced security",
-      "Dedicated account manager",
-      "Custom SLA",
+      "Fully custom design & UX",
+      "3D visuals & advanced UI",
+      "Mobile app (iOS/Android)",
+      "E-commerce & payment systems",
+      "SEO-optimized content",
+      "Dedicated project management",
+      "Long-term support SLA",
     ],
     mostPopular: false,
+    cta: "Book Consultation",
   },
 ];
 
@@ -65,12 +69,11 @@ export default function Pricing() {
             </span>
             <br />
             <span className="bg-gradient-to-b from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              Pricing Plans
+              Pricing
             </span>
           </h2>
           <p className="text-gray-400 text-base text-xl sm:text-lg max-w-2xl mx-auto">
-            Choose the perfect plan for your needs. All plans include a 14-day
-            free trial.
+            No hidden costs. No surprises. Just the right solution for your budget.
           </p>
         </div>
 
@@ -84,70 +87,61 @@ export default function Pricing() {
                   : "border-slate-800 hover:border-slate-700"
               }`}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform -translate-x-full -translate-y-full group-hover:translate-x-0 group-hover:translate-y-0 pointer-events-none rounded-lg" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-lg" />
+
               {plan.mostPopular && (
                 <div className="absolute -top-2 sm:-top-3 left-1/2 transform -translate-x-1/2 z-10">
                   <div className="flex items-center space-x-1 px-3 sm:px-4 py-1 sm:py-1.5 bg-gradient-to-b from-blue-500 to-cyan-500 rounded-full text-xs sm:text-sm font-semibold shadow-lg">
-                    <Star className="w-3 h-3 sm:w-3 sm:h-3 fill-white" />
+                    <span>⭐</span>
                     <span>Most Popular</span>
                   </div>
                 </div>
               )}
 
               <div className="text-center mb-6 sm:mb-8">
-                <h3 className="text-xl sm:text-2xl font-bold mb-2">
-                  {plan.name}
-                </h3>
-                <p className="text-gray-400 text-xs sm:text-sm mb-3 sm:mb-4">
-                  {plan.description}
-                </p>
-                <div className="flex items-baseline justify-center">
-                  <span
-                    className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text 
-                  text-transparent"
-                  >
-                    ${plan.price}
-                  </span>
-                  <span className="text-gray-400 ml-1 sm:ml-2 text-sm sm:text-base">
-                    /month
-                  </span>
+                <div className="text-3xl mb-2">{plan.icon}</div>
+                <h3 className="text-xl sm:text-2xl font-bold mb-2">{plan.name}</h3>
+                <p className="text-gray-400 text-xs sm:text-sm mb-3 sm:mb-4">{plan.description}</p>
+                <div className="flex flex-col items-center justify-center">
+                  <span className="text-gray-500 text-xs mb-1">{plan.priceNote}</span>
+                  <div className="flex items-baseline">
+                    <span className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                      ${plan.price}
+                    </span>
+                  </div>
                 </div>
               </div>
 
-              <ul className="space-y-3 sm:space-y-4 mb-6 sm:mb-8 flex-row">
-                {plan.features.map((feature, featureKey) => (
-                  <li
-                    key={featureKey}
-                    className="flex items-start space-x-2 sm:space-x-3"
-                  >
+              <ul className="space-y-3 sm:space-y-4 mb-6 sm:mb-8 flex-grow">
+                {plan.features.map((feature) => (
+                  <li key={feature} className="flex items-start space-x-2 sm:space-x-3">
                     <div className="flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-blue-500/20 flex items-center justify-center mt-0.5">
                       <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-blue-400" />
                     </div>
-                    <span className="text-gray-300 text-sm sm:text-base">
-                      {feature}
-                    </span>
+                    <span className="text-gray-300 text-sm sm:text-base">{feature}</span>
                   </li>
                 ))}
               </ul>
 
-              <button
-                className={`w-full py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg font-semibold transition-all duration-300 mt-auto hover:scale-102 cursor-pointer text-sm sm:text-base ${
+              <a
+                href="#contact"
+                className={`block text-center w-full py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg font-semibold transition-all duration-300 mt-auto hover:opacity-90 cursor-pointer text-sm sm:text-base ${
                   plan.mostPopular
                     ? "bg-gradient-to-b from-blue-500 to-cyan-500"
                     : "bg-white/5 border border-white/10 hover:bg-white/10"
                 }`}
               >
-                Get Started
-              </button>
+                {plan.cta}
+              </a>
             </div>
           ))}
         </div>
 
         <div className="mt-8 sm:mt-12 text-center">
           <p className="text-gray-400 text-base text-xl">
-            Need a custom plan?{" "}
-            <a href="#" className="text-blue-400 hover:text-blue-300">
-              Contact our sales team
+            Need something more specific?{" "}
+            <a href="mailto:info@amicotechs.com" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">
+              Let's talk
             </a>
           </p>
         </div>

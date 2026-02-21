@@ -1,179 +1,137 @@
-import { ArrowRight, ChevronDown, Play, Sparkles } from "lucide-react";
+import { ArrowRight, ChevronDown, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { codeExamples, floatingCards } from "../data/CodeExamples";
-import { nightOwl } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import Dither from './Dither';
 
 export default function Hero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [activeTab, setActiveTab] = useState("App.jsx");
 
   useEffect(() => {
     function handleMouseMove(e) {
       setMousePosition({ x: e.clientX, y: e.clientY });
     }
-
     window.addEventListener("mousemove", handleMouseMove);
-
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  const currentFloatingCard = floatingCards[activeTab];
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-16 sm:pt-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+
+      {/* Dither Background */}
+      <div className="absolute inset-0 w-full h-full">
+        <Dither
+          waveColor={[0.1, 0.3, 0.6]}
+          disableAnimation={false}
+          enableMouseInteraction
+          mouseRadius={0}
+          colorNum={4}
+          waveAmplitude={0.3}
+          waveFrequency={3}
+          waveSpeed={0.1}
+        />
+      </div>
+
+      {/* Mouse-follow radial overlay */}
       <div
-        className="absolute inset-0 opacity-30"
+        className="absolute inset-0 opacity-40 pointer-events-none"
         style={{
-          background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(59, 130, 246, 0.15), transparent 40%)`,
+          background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(0,0,0,0.9), transparent 40%)`,
+          zIndex: 1,
         }}
       />
 
-      <div className="absolute top-20 left-4 sm:left-10 w-48 sm:w-72 h-48 sm:h-72 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-20 right-4 sm:right-10 w-64 sm:w-96 h-64 sm:h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
+      {/* Ambient blobs */}
+      <div className="absolute top-20 left-4 sm:left-10 w-48 sm:w-72 h-48 sm:h-72 bg-blue-500/10 rounded-full blur-3xl animate-pulse pointer-events-none" style={{ zIndex: 1 }} />
+      <div className="absolute bottom-20 right-4 sm:right-10 w-64 sm:w-96 h-64 sm:h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse delay-1000 pointer-events-none" style={{ zIndex: 1 }} />
 
-      <div className="max-w-7xl mx-auto text-center relative w-full">
-        <div className="max-w-7xl mx-auto flex flex-col lg:grid lg:grid-cols-2 text-center lg:text-left gap-6 sm:gap-8 lg:gap-12 items-center relative">
-          <div>
+      {/* Content */}
+      <div className="max-w-7xl mx-auto relative w-full" style={{ zIndex: 2 }}>
+        <div className="max-w-7xl mx-auto flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+
+          {/* Left — Copy */}
+          <div className="text-center lg:text-left">
             <div className="inline-flex items-center space-x-2 px-3 sm:px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full mb-4 sm:mb-6 animate-in slide-in-from-bottom duration-700">
               <Sparkles className="w-4 h-4 text-blue-400" />
               <span className="text-xs sm:text-sm text-blue-300">
-                Introducing CodeFlow AI
+                Digital systems that actually ship
               </span>
             </div>
 
-            <h1 className="text-5xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold mb-4 sm:mb-6 animate-in slide-in-from-bottom duration-700 delay-100 leading-tight">
+            <h1 className="text-5xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold mb-4 sm:mb-6 animate-in slide-in-from-bottom duration-700 delay-100 leading-tight">
               <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-100 bg-clip-text text-transparent block mb-1 sm:mb-2">
-                Code Faster
+                Build. Launch.
               </span>
               <span className="bg-gradient-to-b from-blue-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent block mb-1 sm:mb-2">
-                Build Better
+                Scale.
               </span>
-              <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-100 bg-clip-text text-transparent block mb-1 sm:mb-2">
-                With CodeFlow AI
+              <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-100 bg-clip-text text-transparent block text-3xl sm:text-2xl md:text-3xl lg:text-4xl">
+                In 72 Hours.
               </span>
             </h1>
 
-            <p className="text-md sm:text-base lg:text-lg text-gray-400 max-w-2xl mx-auto lg:mx-0 mb-6 sm:mb-8 animate-in slide-in-from-bottom duration-700 delay-200 leading-relaxed">
-              Accelerate your development workflow with intelligent code
-              completion, automated testing, and smart debugging. Ship
-              production-ready code 10x faster.
+            <p className="text-md sm:text-base lg:text-lg text-gray-400 max-w-xl mx-auto lg:mx-0 mb-4 sm:mb-6 animate-in slide-in-from-bottom duration-700 delay-200 leading-relaxed">
+              Take your business online, streamline operations, and scale with powerful digital solutions — built fast, built right.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 mb-8 sm:mb-12 animate-in slide-in-from-bottom duration-700 delay-300">
-              <button className="group w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-b from-blue-600 to-blue-400 rounded-lg font-semibold text-sm sm:text-base transition-all duration-300 hover:scale-102 flex items-center justify-center space-x-2">
-                <span>Start Coding Free</span>
-                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300" />
-              </button>
+            <ul className="flex flex-wrap justify-center lg:justify-start gap-3 mb-6 sm:mb-8 animate-in slide-in-from-bottom duration-700 delay-200">
+              {["No jargon", "No hidden costs", "Just results"].map((item) => (
+                <li key={item} className="flex items-center gap-1.5 text-sm text-gray-300">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400 inline-block" />
+                  {item}
+                </li>
+              ))}
+            </ul>
 
-              <button className="group w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg font-semibold text-sm sm:text-base transition-all duration-300 hover:bg-white/10 flex items-center justify-center space-x-2">
-                <div className="p-2 bg-white/10 rounded-full group-hover:bg-white/20 duration-300 transition-colors">
-                  <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-white" />
-                </div>
-                <span>Watch Demo</span>
-              </button>
-            </div>
-          </div>
-          <div className="relative order-2 w-full">
-            <div className="relative bg-white/5 backdrop-blur-xl rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-2xl border border-white/10">
-              <div className="bg-gradient-to-br from-gray-900/20 to-gray-800/20 backdrop-blur-sm rounded-lg overflow-hidden h-[280px] sm:h-[350px] lg:h-[450px] border border-white/5">
-                {/* IDE HEADER */}
-                <div className="flex items-center justify-between px-3 sm:px-4 py-2 sm:py-3 bg-white/5 backdrop-blur-sm border-b border-white/10">
-                  <div className="flex items-center space-x-2">
-                    <div className="flex items-center space-x-1 sm:space-x-2">
-                      <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-red-500" />
-                      <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-yellow-500" />
-                      <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-green-500" />
-                    </div>
-                    <span className="text-xs sm:text-sm text-gray-300">
-                      CodeFlow AI
-                    </span>
-                  </div>
-                  <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400" />
-                </div>
-
-                <div className="p-3 sm:p-4 relative h-full">
-                  {/* file tabs */}
-                  <div className="flex space-x-1 sm:space-x-2 mb-3 sm:mb-4 overflow-x-auto">
-                    <button
-                      onClick={() => setActiveTab("App.jsx")}
-                      className={`px-3 py-2 backdrop-blur-sm tex-xs sm:text-sm rounded-t-lg border ${
-                        activeTab === "App.jsx"
-                          ? "bg-blue-500/30 text-white border-blue-400/20"
-                          : "bg-white/5 text-gray-300 border-white/10 hover:bg-white/10"
-                      }  transition-all duration-200 whitespace-nowrap`}
-                    >
-                      App.jsx
-                    </button>
-                    <button
-                      onClick={() => setActiveTab("Hero.jsx")}
-                      className={`px-3 py-2 backdrop-blur-sm tex-xs sm:text-sm rounded-t-lg border ${
-                        activeTab === "Hero.jsx"
-                          ? "bg-blue-500/30 text-white border-blue-400/20"
-                          : "bg-white/5 text-gray-300 border-white/10 hover:bg-white/10"
-                      }  transition-all duration-200 whitespace-nowrap`}
-                    >
-                      Hero.jsx
-                    </button>
-                    <button
-                      onClick={() => setActiveTab("Navbar.jsx")}
-                      className={`px-3 py-2 backdrop-blur-sm tex-xs sm:text-sm rounded-t-lg border ${
-                        activeTab === "Navbar.jsx"
-                          ? "bg-blue-500/30 text-white border-blue-400/20"
-                          : "bg-white/5 text-gray-300 border-white/10 hover:bg-white/10"
-                      }  transition-all duration-200 whitespace-nowrap`}
-                    >
-                      Navbar.jsx
-                    </button>
-                  </div>
-
-                  {/* Code Content */}
-                  <div className="relative overflow-hidden flex-grow">
-                    <SyntaxHighlighter
-                      language="javascript"
-                      style={nightOwl}
-                      customStyle={{
-                        margin: 0,
-                        borderRadius: "8px",
-                        fontSize: "11px",
-                        lineHeight: "1.4",
-                        height: "100%",
-                        border: "1px solid #3c3c3c",
-                        wordWrap: "break-word",
-                        whiteSpace: "pre-wrap",
-                        textAlign: "left",
-                      }}
-                    >
-                      {codeExamples[activeTab]}
-                    </SyntaxHighlighter>
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating Cards */}
-              <div
-                className={`hidden lg:block absolute bottom-4 right-4 transform translate-x-8 translate-y-8 w-72 ${currentFloatingCard.bgColor} backdrop-blur-xl rounded-lg p-4 border border-white/20 shadow-2xl`}
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 animate-in slide-in-from-bottom duration-700 delay-300">
+              <a
+                href="#contact"
+                className="group w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-b from-blue-600 to-blue-400 rounded-lg font-semibold text-sm sm:text-base transition-all duration-300 hover:opacity-90 flex items-center justify-center space-x-2"
               >
-                <div className="flex items-center space-x-2 mb-2">
-                  <div
-                    className={`w-6 h-6 ${currentFloatingCard.iconColor} flex items-center justify-center text-sm font-bold`}
-                  >
-                    {currentFloatingCard.icon}
-                  </div>
-                  <span
-                    className={`text-sm font-medium ${currentFloatingCard.textColor}`}
-                  >
-                    {currentFloatingCard.title}
-                  </span>
-                </div>
+                <span>🚀 Start Your Project</span>
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300" />
+              </a>
 
-                <div
-                  className={`text-sm text-left ${currentFloatingCard.contentColor}`}
-                >
-                  {currentFloatingCard.content}
-                </div>
-              </div>
+              <a
+                href="#contact"
+                className="group w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg font-semibold text-sm sm:text-base transition-all duration-300 hover:bg-white/10 flex items-center justify-center space-x-2"
+              >
+                <span>📞 Book a Consultation</span>
+              </a>
             </div>
           </div>
+
+          {/* Right — Stat Cards */}
+          <div className="relative order-2 w-full flex flex-col gap-4 sm:gap-6 lg:gap-6">
+            {/* Main stat card */}
+            <div className="relative bg-white/5 backdrop-blur-xl rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/10 shadow-2xl text-center">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-cyan-500/5 rounded-xl sm:rounded-2xl" />
+              <p className="text-gray-400 text-sm uppercase tracking-widest mb-2 relative">Average delivery</p>
+              <p className="text-6xl sm:text-7xl font-bold bg-gradient-to-b from-blue-400 to-cyan-400 bg-clip-text text-transparent relative">72h</p>
+              <p className="text-gray-500 text-xs mt-2 relative">From idea to live system*</p>
+            </div>
+
+            {/* Value strip cards */}
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+              {[
+                { icon: "⚡", label: "72-Hour Delivery" },
+                { icon: "💼", label: "End-to-End Dev & Deploy" },
+                { icon: "📊", label: "Built for Growth" },
+                { icon: "🔍", label: "Transparent Pricing" },
+              ].map((item) => (
+                <div
+                  key={item.label}
+                  className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-3 sm:p-4 flex items-center gap-3 hover:border-blue-500/30 transition-colors duration-300"
+                >
+                  <span className="text-xl">{item.icon}</span>
+                  <span className="text-gray-300 text-xs sm:text-sm font-medium leading-tight">{item.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Scroll hint */}
+        <div className="flex justify-center mt-12 animate-bounce" style={{ zIndex: 2 }}>
+          <ChevronDown className="w-6 h-6 text-gray-500" />
         </div>
       </div>
     </section>

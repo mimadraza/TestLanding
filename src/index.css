@@ -61,3 +61,11 @@
     trasnform: translateY(0);
   }
 }
+
+.brand-logo{
+  position: relative;
+  width: 220px;
+  height: 35px;
+  color: #ffffff;
+  margin-left: -12px;
+}
